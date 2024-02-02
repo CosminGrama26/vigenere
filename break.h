@@ -26,7 +26,6 @@ void fourgrams_check(char* text, char* fourgram, node **f_list);
 void find_divisors(node *list, int* void_divisors);
 int* manage_divsors(int** divisors); //da meglio definire
 void free_list(node *list);
-char* frequency_analysis(char* text, int kl);
 
 #endif
 

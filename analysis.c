@@ -1,7 +1,6 @@
 #include <stdlib.h>
 
-
-#include "break.h"
+#include "analysis.h"
 
 char* frequency_analysis(char* text, int kl)
 {

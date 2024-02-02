@@ -6,6 +6,7 @@
 #include <math.h>
 
 #include "break.h"
+#include "analysis.h"
 
 void encrypt(char* text, char* key);
 void remove_symbol(char *s);
