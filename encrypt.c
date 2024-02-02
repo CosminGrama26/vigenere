@@ -148,7 +148,8 @@ void remove_symbol(char *str)
     while (str[old])
     {
         if ((str[old] >= 65 && str[old] <= 90)
-         || (str[old] >= 97 && str[old] <= 122))
+         || (str[old] >= 97 && str[old] <= 122)
+         || (str[old] >= 48 && str[old] <= 57))
             str[new++] = str[old];
         old++;       
     }
