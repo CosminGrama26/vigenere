@@ -25,8 +25,6 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-
-    
     //check validity of key and mode
     if (argv[2][0] != 'b' && argv[2][0] != 'd' && argv[2][0] != 'e')
     {
@@ -49,13 +47,13 @@ int main(int argc, char* argv[])
     {
         break_cypher(text);
         print_text(text);
-        free(text);
-    
+        free(text);   
         return 0;
     }
     
     //check key validity
-    if (strlen(argv[3]) > MAX_KEY)
+    int key_l = strlen(argv[3]);
+    if (key_l > MAX_KEY)
     {
         printf("Maximum key lenght = 25\n");
         return 1;
@@ -72,12 +70,12 @@ int main(int argc, char* argv[])
     }
       
     //key has to be an array, because it cannot be represented as a string when reversed
-    char key[strlen(argv[3])];
-    for (int i = 0; i < strlen(argv[3]); i++)
+    char key[key_l];
+    for (int i = 0; i < key_l; i++)
     {
         key[i] = argv[3][i];
     }
-    key[strlen(argv[3])] = '\0';
+    key[key_l] = '\0';
     
     //key to lower case
     for (int i = 0; i < sizeof(key); i++)
@@ -92,10 +90,10 @@ int main(int argc, char* argv[])
     else if (mode == 'd')
     {   
         //reversing the key for decryption
-        char reverse_key [strlen(argv[3]) + 1];
-            for (int i = 0; i < strlen(argv[3]); i++)
+        char reverse_key [key_l + 1];
+            for (int i = 0; i < key_l; i++)
                 reverse_key[i] = key[i] - (key[i] - 96) * 2;
-        reverse_key[strlen(argv[3])] = '\0';
+        reverse_key[key_l] = '\0';
         encrypt(text, reverse_key);
     }
         
