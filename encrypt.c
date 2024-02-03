@@ -69,13 +69,8 @@ int main(int argc, char* argv[])
         return 1;
     }
       
-    //key has to be an array, because it cannot be represented as a string when reversed
-    char key[key_l];
-    for (int i = 0; i < key_l; i++)
-    {
-        key[i] = argv[3][i];
-    }
-    key[key_l] = '\0';
+    //assagning command line argument to variable
+    char *key = argv[3];
     
     //key to lower case
     for (int i = 0; i < sizeof(key); i++)
