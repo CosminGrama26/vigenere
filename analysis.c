@@ -2,8 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 #include "analysis.h"
+
+const float ALPHABET_ITA[ALPHABET]={11.74, 0.92, 4.5, 3.73, 11.79,
+    0.95, 1.64, 1.54, 11.28, 0, 0, 6.51, 2.51, 6.88, 9.83, 3.05,
+    0.51, 6.37, 4.98, 5.62, 3.01, 2.1, 0, 0, 0, 0.49};
 
 char* frequency_analysis(char* text, int kl)
 {
@@ -23,6 +28,7 @@ char* frequency_analysis(char* text, int kl)
 
     free(sub_texts);
     key[kl] = '\0';
+    printf("|||| KEY = %s ||||\n", key);
     return key;
 }
 
@@ -67,8 +73,39 @@ char analyze(char* text)
                 frequency[letter_n]++;    
         }
         frequency[letter_n] = frequency[letter_n] * 100 / tl;
-        printf("Char: %c -- Frequency: %2f\n", c, frequency[letter_n]);
     }
-    printf("\n");
-    return 'a';
+
+    // SPLIT HERE???
+
+    float score[ALPHABET];   
+    for (int i = 0; i < ALPHABET; i++)
+        score[i] = 0;
+
+    for (int i = 0; i < ALPHABET; i++)  //loops possible transaltion lenght (i.e alphabet)
+    {
+        float points = 0;
+        int move = i + 1;       //char at position 0 (a) moves the text by 1, etc.
+        for (int j = 0; j < ALPHABET; j++)  //loops frequency in target text
+        {
+            int shift = move + j;
+            if (shift >= ALPHABET)       
+                shift -= ALPHABET;      //wrap around
+
+            float closeness = frequency[shift] - ALPHABET_ITA[j];
+                if (closeness < 0)
+                    closeness *= -1;
+            points += closeness;
+        }
+        score[i] = points;
+    }
+
+    float best_result = pow(ALPHABET, 2);    //just an arbitrary very very bad score
+    int best = 0;
+    for (int i = 0; i < ALPHABET; i++)       //findind the lowest score
+        if (score[i] < best_result)
+        {
+            best_result = score[i];
+            best = i;
+        }
+    return ('a' + best);
 }
