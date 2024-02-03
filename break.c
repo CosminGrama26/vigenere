@@ -279,7 +279,7 @@ int* manage_divsors(int** divisors)
     }
     
     //put all different top guesses into a single array
-    //best score is the lowrst
+    //best score is the lowest
     int guess_counter = 0;
     bool present = 0;
     for (int h = 0; h < 3; h++)
@@ -323,7 +323,7 @@ int* manage_divsors(int** divisors)
     int *best_guesses = calloc(guess_counter, sizeof(int));
     for (int i = 0; i < guess_counter; i++)
     {
-        best_guesses[i] = guesses[i].divisor, guesses[i].points;
+        best_guesses[i] = guesses[i].divisor;
     }
     return best_guesses;
 }

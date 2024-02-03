@@ -9,7 +9,7 @@
 #include "analysis.h"
 
 void encrypt(char* text, char* key);
-void remove_symbol(char *s);
+void remove_symbol(char *s, char mode);
 bool is_alpha(char* str);
 char* load_file(char* textfile_loc);
 void print_text(char* text);
@@ -42,6 +42,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    //stip the text of non-alphanumerical chars
+    remove_symbol(text, mode);
+
     //if we go in break mode we don't process argv 3
     if (mode == 'b')
     {
@@ -49,8 +52,8 @@ int main(int argc, char* argv[])
         print_text(text);
         free(text);   
         return 0;
-    }
-    
+    }  
+
     //check key validity
     int key_l = strlen(argv[3]);
     if (key_l > MAX_KEY)
@@ -73,11 +76,10 @@ int main(int argc, char* argv[])
     char *key = argv[3];
     
     //key to lower case
-    for (int i = 0; i < sizeof(key); i++)
+    for (int i = 0; i < key_l; i++)
         key[i] = tolower(key[i]);
     
-    //stip the text of non-alphanumerical chars
-    remove_symbol(text);
+
 
     if (mode == 'e')
         encrypt(text, key);
@@ -135,17 +137,31 @@ void encrypt(char* text, char* key)
     
 }
 
-void remove_symbol(char *str)
+void remove_symbol(char *str, char mode)
 {
     int new = 0, old = 0;
-
-    while (str[old])
+    
+    //in break mode we also have to get rid of numbers from text
+    if (mode == 'b')
     {
+        while (str[old])
+        {
         if ((str[old] >= 65 && str[old] <= 90)
-         || (str[old] >= 97 && str[old] <= 122)
-         || (str[old] >= 48 && str[old] <= 57))
+         || (str[old] >= 97 && str[old] <= 122))
             str[new++] = str[old];
         old++;       
+        }
+    }
+    else
+    {
+        while (str[old])
+        {
+            if ((str[old] >= 65 && str[old] <= 90)
+            || (str[old] >= 97 && str[old] <= 122)
+            || (str[old] >= 48 && str[old] <= 57))
+                str[new++] = str[old];
+            old++;       
+        }        
     }
     str[new]=0;
 }
