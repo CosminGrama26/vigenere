@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "break.h"
+#include "analysis.h"
 
 void break_cypher(char* text)
 {
@@ -38,7 +40,7 @@ void break_cypher(char* text)
     free(t_divisors);
     free(f_divisors);
 
-    char* key = frequency_analysis(text, picks[0]);
+    char *key = frequency_analysis(text, picks[0]);
     
 }
 
@@ -242,7 +244,7 @@ int* manage_divsors(int** divisors)
         {
             //array position = divisor, value = occurences
             int occurences = current_div[i];  
-            long int value = pow(occurences, 2) * i * pow(type, 2);
+            long int value = pow(occurences, 1.35) * i;
 
             for (int j = 0; j < TOP_PICKS; j++)
             {
@@ -298,7 +300,7 @@ int* manage_divsors(int** divisors)
             if (!present)
             {
                 guesses[guess_counter].divisor = most_likely[h][i];
-                guesses[guess_counter].points += type * (i + 1);
+                guesses[guess_counter].points += pow(type, 5) * (i + 1);
                 guess_counter ++;
             }
         }      
@@ -320,8 +322,9 @@ int* manage_divsors(int** divisors)
     //creating an array with only the picks, to return
     int *best_guesses = calloc(guess_counter, sizeof(int));
     for (int i = 0; i < guess_counter; i++)
+    {
         best_guesses[i] = guesses[i].divisor, guesses[i].points;
-
+    }
     return best_guesses;
 }
 
