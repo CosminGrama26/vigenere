@@ -53,11 +53,16 @@ char* frequency_analysis(char* text, int kl)
     for (int i = 0; i < kl; i++)
     {
         key[i] = analyze(sub_texts[i], *pAlphabet);
+        free(sub_texts[i]);
     }
 
     free(sub_texts);
     key[kl] = '\0';
     printf("|||| KEY = %s ||||\n", key);
+    printf("You can now run the program in decrypt mode providing the key.\n");
+    printf("If thee key is incorrect, you can also run the b mode again with manual analysis!\n");
+    free(key);
+
     return key;
 }
 
@@ -76,13 +81,13 @@ char** split_text(char* text, int p)
         for (int j = i; j < tl; j += p, k++)
             sub_text[k] = text[j];
 
-        sub_text[k+1] = '\0';
+        sub_text[k] = '\0';
         texts[i] = sub_text;
     }
     return texts;
 }
 
-char analyze(char* text, const float target_alphabet[26])
+char analyze(char* text, const float target_alphabet[ALPHABET])
 {
     /*compares alphabet frequencies to text frequencies
      *horizontal translation of distribution = key letter position in alphabet*/
