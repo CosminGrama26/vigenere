@@ -4,7 +4,7 @@
 #define ALPHABET 26
 
 char* frequency_analysis(char* text, int kl);
-char** text_divider(char* text, int p);
-char analyze(char* text);
+char** split_text(char* text, int p);
+char analyze(char* text, const float target_alphabet[26]);
 
 #endif

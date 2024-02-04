@@ -26,7 +26,7 @@ void bigrams_check(char* text, char* bigram, node **b_list);
 void trigrams_check(char* text, char* trigram, node **t_list);
 void fourgrams_check(char* text, char* fourgram, node **f_list);
 void find_divisors(node *list, int* void_divisors);
-int* manage_divsors(int** divisors); //da meglio definire
+int* manage_divsors(int** divisors);
 void free_list(node *list);
 
 #endif
