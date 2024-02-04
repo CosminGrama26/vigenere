@@ -41,6 +41,8 @@ void break_cypher(char* text)
     free(f_divisors);
 
     char *key = frequency_analysis(text, picks[0]);
+
+    free(picks);
     
 }
 

@@ -54,6 +54,13 @@ int main(int argc, char* argv[])
         return 0;
     }  
 
+    if (argc != 4)
+    {
+        printf("Usage: ./encrypt [FILE] mode (key)\n");
+        printf("Modes: e = encrypt, d = decrypt; b = break\n");
+        return 1;
+    }    
+
     //check key validity
     int key_l = strlen(argv[3]);
     if (key_l > MAX_KEY)

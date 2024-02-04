@@ -5,6 +5,6 @@
 
 char* frequency_analysis(char* text, int kl);
 char** split_text(char* text, int p);
-char analyze(char* text, const float target_alphabet[26]);
+char analyze(char* text, const float target_alphabet[ALPHABET]);
 
 #endif
