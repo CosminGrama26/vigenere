@@ -8,8 +8,28 @@
 #include "break.h"
 #include "analysis.h"
 
+bool manual = false;
+
 void break_cypher(char* text)
 {
+    printf("Do you want to proced with manual analysis? (Y / n)\n");
+    fflush(stdout);
+    char r;
+    for (;;)
+    {
+        scanf("%c", &r);
+        char c;
+        while ((c = getchar()) != '\n' && c != EOF);   //flushing input buffer;
+
+        if (r == 'y' || r == 'Y')
+        {
+            manual = true;
+            break;
+        }
+        else if (r == 'n' || r == 'N') break;           
+        else printf("Please type ITA or ENG\n");
+    }
+
     //create linked list for bigrams
     node *b_list = NULL;
     char bigram[2] = {'a', 'a'};

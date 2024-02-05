@@ -11,9 +11,9 @@ const float ALPHABET_ITA[ALPHABET] = {11.74, 0.92, 4.5, 3.73, 11.79,
     0.95, 1.64, 1.54, 11.28, 0, 0, 6.51, 2.51, 6.88, 9.83, 3.05,
     0.51, 6.37, 4.98, 5.62, 3.01, 2.1, 0, 0, 0, 0.49};
 
-const float ALPHABET_ENG[ALPHABET] = {11.74, 0.92, 4.5, 3.73, 11.79,      //numeri sono placeholders
-    0.95, 1.64, 1.54, 11.28, 0, 0, 6.51, 2.51, 6.88, 9.83, 3.05,
-    0.51, 6.37, 4.98, 5.62, 3.01, 2.1, 0, 0, 0, 0.49};
+const float ALPHABET_ENG[ALPHABET] = {8.2, 1.5, 2.8, 4.3, 12.7,
+    2.2, 2, 6.1, 7, 0.15, 0.77, 4.0, 2.4, 6.7, 7.5, 1.9,
+    0.095, 6, 6.3, 9.1, 2.8, 0.98, 2.4, 0.15, 2, 0.074};
 
 char* frequency_analysis(char* text, int kl)
 {      
@@ -29,10 +29,11 @@ char* frequency_analysis(char* text, int kl)
     const float (*pAlphabet)[26] = NULL;
     char language[4];
 
+    printf("What language do you expect the original text to be written in? (ITA / ENG): ");
+    fflush(stdout);
+
     for (;;)
     {       
-        printf("What language do you expect the original text to be written in? (ITA / ENG): ");
-        fflush(stdout);
         scanf("%3s", language);   
         char c;
         while ((c = getchar()) != '\n' && c != EOF);       //flushing input buffer;
