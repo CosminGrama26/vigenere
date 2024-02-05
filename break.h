@@ -6,7 +6,7 @@
 
 typedef struct node
 {
-    int distances[50];
+    int distances[200];
     int lenght;
     struct node *next;
 } node;
