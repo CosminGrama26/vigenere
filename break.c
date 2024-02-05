@@ -8,33 +8,20 @@
 #include "break.h"
 #include "analysis.h"
 
-bool manual = false;
-
 void break_cypher(char* text)
 {
-    printf("Do you want to proced with manual analysis? (Y / n)\n");
-    fflush(stdout);
-    char r;
-    for (;;)
-    {
-        scanf("%c", &r);
-        char c;
-        while ((c = getchar()) != '\n' && c != EOF);   //flushing input buffer;
-
-        if (r == 'y' || r == 'Y')
-        {
-            manual = true;
-            break;
-        }
-        else if (r == 'n' || r == 'N') break;           
-        else printf("Please type ITA or ENG\n");
-    }
-
     //create linked list for bigrams
     node *b_list = NULL;
     char bigram[2] = {'a', 'a'};
     bigrams_check(text, bigram, &b_list);
     int* b_divisors = calloc(MAX_KEY, sizeof(int));
+    if (b_divisors == NULL)
+    {
+        printf("Memory error");
+        free_list(b_list);
+        return;
+    }
+    
     find_divisors(b_list, b_divisors);
     free_list(b_list);
 
@@ -43,27 +30,38 @@ void break_cypher(char* text)
     char trigram[3] = {'a', 'a', 'a'};
     trigrams_check(text, trigram, &t_list);
     int* t_divisors = calloc(MAX_KEY, sizeof(int));
+    if (t_divisors == NULL)
+    {
+        printf("Memory error");
+        free_list(t_list);
+        return;
+    }
+
     find_divisors(t_list, t_divisors);
     free_list(t_list);
-    
+
     //create linked list for fourgrams
     node *f_list = NULL;
     char fourgram[4] = {'a', 'a', 'a', 'a'};
     trigrams_check(text, fourgram, &f_list);
     int* f_divisors = calloc(MAX_KEY, sizeof(int));
+    if (f_divisors == NULL)
+    {
+        printf("Memory error");
+        free_list(f_list);
+        return;
+    }
+
     find_divisors(f_list, f_divisors);
     free_list(f_list);
 
     int* divisors[3]= {b_divisors, t_divisors, f_divisors};
-    int* picks = manage_divsors(divisors);
+    int kl = manage_divsors(divisors);
     free(b_divisors);
     free(t_divisors);
     free(f_divisors);
 
-    char *key = frequency_analysis(text, picks[0]);
-
-    free(picks);
-    
+    frequency_analysis(text, kl);
 }
 
 void bigrams_check(char* text, char* bigram, node **b_list)
@@ -93,9 +91,6 @@ void bigrams_check(char* text, char* bigram, node **b_list)
     // if we have at least 1 distance we link the node to the list
     if (occurence >= 2)
     {    
-        n->name[0] = bigram[0];
-        n->name[1] = bigram[1];
-        n->name[2] = '\0';
         n->lenght = occurence - 1;
         n->next = NULL;
         n->next = *b_list; // point to where b_list previously pointed
@@ -143,10 +138,6 @@ void trigrams_check(char* text, char* trigram, node **t_list)
 
     if (occurence >= 2)
     {    
-        n->name[0] = trigram[0];
-        n->name[1] = trigram[1];
-        n->name[2] = trigram[2];
-        n->name[3] = '\0';
         n->lenght = occurence - 1;
         n->next = NULL;
         n->next = *t_list;
@@ -197,11 +188,6 @@ void fourgrams_check(char* text, char* fourgram, node **f_list)
 
     if (occurence >= 2)
     {    
-        n->name[0] = fourgram[0];
-        n->name[1] = fourgram[1];
-        n->name[2] = fourgram[2];
-        n->name[3] = fourgram[3];
-        n->name[4] = '\0';
         n->lenght = occurence - 1;
         n->next = NULL;
         n->next = *f_list;
@@ -252,14 +238,14 @@ void find_divisors(node *list, int* void_divisors)
     free(ptr);
 }
 
-int* manage_divsors(int** divisors)
+int manage_divsors(int** divisors)
 {
     int most_likely[3][TOP_PICKS];
     for (int h = 0; h < 3; h++)
     {   
         int* current_div = divisors[h];
-        int* top = calloc(TOP_PICKS, sizeof(int));
-        long int* top_v = calloc(TOP_PICKS, sizeof(long int));
+        int top[TOP_PICKS];
+        long int top_v[TOP_PICKS];
         int type = h + 2;
         //loops through divisors of current array (of 3)
         for (int i = 2; i < MAX_KEY; i++)
@@ -288,8 +274,6 @@ int* manage_divsors(int** divisors)
         //populating 2d array of picks
         for (int i = 0; i < TOP_PICKS; i++)
             most_likely[h][i] = top[i];  
-        free(top);
-        free(top_v);
     }
 
     //initialising array of guesses
@@ -299,7 +283,7 @@ int* manage_divsors(int** divisors)
         guesses[i].divisor = 0;
         guesses[i].points = 0;
     }
-    
+
     //put all different top guesses into a single array
     //best score is the lowest
     int guess_counter = 0;
@@ -341,13 +325,8 @@ int* manage_divsors(int** divisors)
         }
     }
 
-    //creating an array with only the picks, to return
-    int *best_guesses = calloc(guess_counter, sizeof(int));
-    for (int i = 0; i < guess_counter; i++)
-    {
-        best_guesses[i] = guesses[i].divisor;
-    }
-    return best_guesses;
+    //returning best guess
+    return guesses[0].divisor;
 }
 
 void free_list(node *list)

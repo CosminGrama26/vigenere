@@ -14,7 +14,6 @@ bool is_alpha(char* str);
 char* load_file(char* textfile_loc);
 void print_text(char* text);
 
-
 int main(int argc, char* argv[])
 {
     //check correct number of args
@@ -42,14 +41,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    //stip the text of non-alphanumerical chars
+    //strip the text of non-alphanumerical chars
     remove_symbol(text, mode);
 
     //if we go in break mode we don't process argv 3
     if (mode == 'b')
     {
         break_cypher(text);
-        print_text(text);
         free(text);   
         return 0;
     }  
@@ -78,19 +76,16 @@ int main(int argc, char* argv[])
         printf("Please provide a key!\n");
         return 1;
     }
-      
+
     //assagning command line argument to variable
     char *key = argv[3];
-    
+
     //key to lower case
     for (int i = 0; i < key_l; i++)
         key[i] = tolower(key[i]);
-    
-
 
     if (mode == 'e')
         encrypt(text, key);
-    
     else if (mode == 'd')
     {   
         //reversing the key for decryption
@@ -100,10 +95,10 @@ int main(int argc, char* argv[])
         reverse_key[key_l] = '\0';
         encrypt(text, reverse_key);
     }
-        
+
     print_text(text);
     free(text);
-    
+
     return 0;
 }
 
@@ -116,7 +111,7 @@ void encrypt(char* text, char* key)
     int text_length = strlen(text);
     for (int i = 0; i < text_length; i++)
     {
-        
+
         // for redeability
         unsigned char c = text[i];
         // Uppercase characters
@@ -141,13 +136,12 @@ void encrypt(char* text, char* key)
         }        
         text[i] = c;    
     }
-    
 }
 
 void remove_symbol(char *str, char mode)
 {
     int new = 0, old = 0;
-    
+
     //in break mode we also have to get rid of numbers from text
     if (mode == 'b')
     {
@@ -196,8 +190,15 @@ char* load_file(char* textfile_loc)
     FILE *textfile = fopen(textfile_loc, "r");
     if (textfile == NULL)
         return NULL;
-    
+
     char* text = malloc(f_size + 1);
+    if (text == NULL)
+    {
+        fclose(textfile);
+        printf("Memory error");
+        return NULL;
+    }
+
     fread(text, 1, f_size, textfile);
     text[f_size] = '\0';
     fclose(textfile);
@@ -206,9 +207,10 @@ char* load_file(char* textfile_loc)
 
 void print_text(char* text)
 {
-    //char* filename = malloc(sizeof(char) * 100);
-    //filename = strcat("output_", name);
     FILE *output = fopen("output.txt", "w");
+    if (output == NULL)
+        printf("Memory error");
+
     fwrite(text, strlen(text), 1, output);
     fclose(output);
 }

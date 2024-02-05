@@ -15,7 +15,7 @@ const float ALPHABET_ENG[ALPHABET] = {8.2, 1.5, 2.8, 4.3, 12.7,
     2.2, 2, 6.1, 7, 0.15, 0.77, 4.0, 2.4, 6.7, 7.5, 1.9,
     0.095, 6, 6.3, 9.1, 2.8, 0.98, 2.4, 0.15, 2, 0.074};
 
-char* frequency_analysis(char* text, int kl)
+void frequency_analysis(char* text, int kl)
 {      
     //text to lowe case
     for (int i = 0; i < strlen(text); i++)
@@ -24,7 +24,7 @@ char* frequency_analysis(char* text, int kl)
     //create array of subtexts
     char** sub_texts;
     sub_texts = split_text(text, kl);
-    char* key = malloc(sizeof(char)*(kl +1));
+    char key[kl+1];
 
     const float (*pAlphabet)[26] = NULL;
     char language[4];
@@ -59,12 +59,9 @@ char* frequency_analysis(char* text, int kl)
 
     free(sub_texts);
     key[kl] = '\0';
+
     printf("|||| KEY = %s ||||\n", key);
     printf("You can now run the program in decrypt mode providing the key.\n");
-    printf("If thee key is incorrect, you can also run the b mode again with manual analysis!\n");
-    free(key);
-
-    return key;
 }
 
 char** split_text(char* text, int p)
