@@ -38,6 +38,9 @@ void frequency_analysis(char* text, int kl)
         char c;
         while ((c = getchar()) != '\n' && c != EOF);       //flushing input buffer;
        
+        for (int i = 0; i < 3; i++)
+            language[i] = toupper(language[i]);
+        
         if (strcmp(language, "ITA") == 0)
         {
             pAlphabet = &ALPHABET_ITA;
