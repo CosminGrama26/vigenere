@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     {
         printf("Usage: ./encrypt [FILE] mode (key)\n");
         printf("Modes: e = encrypt, d = decrypt; b = break\n");
-        fflush(stdin);
+        fflush(stdout);
         return 1;
     }
 
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
     if (argv[2][0] != 'b' && argv[2][0] != 'd' && argv[2][0] != 'e')
     {
         printf("Invalid mode.\n");
-        fflush(stdin);
+        fflush(stdout);
         return 1;
     } 
     char mode = argv[2][0];
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     if (text == NULL)
     {
         printf("Could not locate/load file\n");
-        fflush(stdin);
+        fflush(stdout);
         return 1;
     }
 
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
     {
         printf("Usage: ./encrypt [FILE] mode (key)\n");
         printf("Modes: e = encrypt, d = decrypt; b = break\n");
-        fflush(stdin);
+        fflush(stdout);
         return 1;
     }    
 
@@ -68,19 +68,19 @@ int main(int argc, char* argv[])
     if (key_l > MAX_KEY)
     {
         printf("Maximum key lenght = 25\n");
-        fflush(stdin);
+        fflush(stdout);
         return 1;
     }
     if (! is_alpha(argv[3]))
     {
         printf("Key must be alphabetical!\n");
-        fflush(stdin);
+        fflush(stdout);
         return 1;
     }
     if (argv[3] == NULL)
     {
         printf("Please provide a key!\n");
-        fflush(stdin);
+        fflush(stdout);
         return 1;
     }
 
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
     print_text(text);
     free(text);
 
-    fflush(stdin);
+    fflush(stdout);
     return 0;
 }
 
