@@ -278,7 +278,7 @@ int manage_divsors(int** divisors)
 
             for (int j = 0; j < TOP_PICKS; j++)
             {
-                if (value > top_v[i])
+                if (value > top_v[j])
                 {
                     //moving smaller list elements
                     for (int k = TOP_PICKS - 2; k >= j; k--)
