@@ -2,7 +2,7 @@
 
 By Florin Cosmin Grama
 
-### Video Demo:  <URL HERE>
+### Video Demo:  <https://youtu.be/QwqtOKWTWvQ>
 ## Description:
 This C program is designed to encryp and decrypt a text if provided with a key, using the Vigenère polyalphabetic cipher. <https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher>
 
