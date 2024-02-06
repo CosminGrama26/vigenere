@@ -74,10 +74,27 @@ char** split_text(char* text, int p)
     int tl = strlen(text);
     //initilise array of strings
     char** texts = calloc(p, sizeof(char*));
+    if (texts == NULL)
+    {
+        free(text);
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
     for (int i = 0; i < p; i++)
     {
         //each substring has the length of text/p
         char* sub_text = calloc((tl/p) + 2, sizeof(char));
+        if (sub_text == NULL)
+        {
+            free(text);
+            for (int m = 0; m < i; m++)
+                free(texts[m]);
+            free(texts);
+            fprintf(stderr, "Memory allocation failed\n");
+            exit(EXIT_FAILURE);
+        }
+        
         int k = 0;
         for (int j = i; j < tl; j += p, k++)
             sub_text[k] = text[j];

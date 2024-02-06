@@ -17,10 +17,11 @@ void break_cypher(char* text)
     int* b_divisors = calloc(MAX_KEY, sizeof(int));
     if (b_divisors == NULL)
     {
-        printf("Memory error");
+        free(text);
         free_list(b_list);
-        return;
-    }
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }   
     
     find_divisors(b_list, b_divisors);
     free_list(b_list);
@@ -32,10 +33,12 @@ void break_cypher(char* text)
     int* t_divisors = calloc(MAX_KEY, sizeof(int));
     if (t_divisors == NULL)
     {
-        printf("Memory error");
+        free(text);
+        free(b_divisors);
         free_list(t_list);
-        return;
-    }
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }  
 
     find_divisors(t_list, t_divisors);
     free_list(t_list);
@@ -47,10 +50,13 @@ void break_cypher(char* text)
     int* f_divisors = calloc(MAX_KEY, sizeof(int));
     if (f_divisors == NULL)
     {
-        printf("Memory error");
+        free(text);
+        free(b_divisors);
+        free(t_divisors);
         free_list(f_list);
-        return;
-    }
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }  
 
     find_divisors(f_list, f_divisors);
     free_list(f_list);
@@ -72,9 +78,11 @@ void bigrams_check(char* text, char* bigram, node **b_list)
     node *n = malloc(sizeof(node));
     if (n == NULL)
     {
-        free(n);
-        return;
-    }
+        free(text);
+        free(b_list);
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }   
 
     for (int i = 0; i < strlen(text) - 2; i++)
     {
@@ -121,9 +129,11 @@ void trigrams_check(char* text, char* trigram, node **t_list)
     node *n = malloc(sizeof(node));
     if (n == NULL)
     {
-        free(n);
-        return;
-    }
+        free(text);
+        free(t_list);
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }   
 
     for (int i = 0; i < strlen(text) - 2; i++)
     {
@@ -170,9 +180,11 @@ void fourgrams_check(char* text, char* fourgram, node **f_list)
     node *n = malloc(sizeof(node));
     if (n == NULL)
     {
-        free(n);
-        return;
-    }
+        free(text);
+        free(f_list);
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }   
 
     for (int i = 0; i < strlen(text) - 2; i++)
     {
@@ -241,11 +253,21 @@ void find_divisors(node *list, int* void_divisors)
 int manage_divsors(int** divisors)
 {
     int most_likely[3][TOP_PICKS];
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < TOP_PICKS; j++)
+            most_likely[i][j] = 0;
+
     for (int h = 0; h < 3; h++)
     {   
         int* current_div = divisors[h];
         int top[TOP_PICKS];
         long int top_v[TOP_PICKS];
+        for (int i = 0; i < TOP_PICKS; i++)
+        {
+            top[i] = 0;
+            top_v[i] = 0;
+        }
+        
         int type = h + 2;
         //loops through divisors of current array (of 3)
         for (int i = 2; i < MAX_KEY; i++)
@@ -256,7 +278,7 @@ int manage_divsors(int** divisors)
 
             for (int j = 0; j < TOP_PICKS; j++)
             {
-                if (value > top_v[j])
+                if (value > top_v[i])
                 {
                     //moving smaller list elements
                     for (int k = TOP_PICKS - 2; k >= j; k--)
