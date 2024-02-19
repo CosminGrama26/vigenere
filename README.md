@@ -4,9 +4,9 @@ By Florin Cosmin Grama
 
 ### Video Demo:  <https://youtu.be/QwqtOKWTWvQ>
 ## Description:
-This C program is designed to encryp and decrypt a text if provided with a key, using the Vigenère polyalphabetic cipher. <https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher>
+This C program is designed to encrypt and decrypt a text if provided with a key, using the Vigenère polyalphabetic cipher. <https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher>
 
-Additionally, it can also break an encrypt text without knoweledge of the key, by applying cryptanalysis. The different behaviours of the program are selected with command line argument, which defines the mode: `e`, for "encrypt", `d`, for "decrypt", and `b`, for "break".
+Additionally, it can also break an encrypted text without knoweledge of the key, by applying cryptanalysis. The different behaviours of the program are selected with a command line argument, which defines the mode: `e`, for "encrypt", `d`, for "decrypt", and `b`, for "break".
 
 ## Project Components
 
