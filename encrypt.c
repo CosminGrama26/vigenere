@@ -21,7 +21,6 @@ int main(int argc, char* argv[])
     {
         printf("Usage: ./encrypt [FILE] mode (key)\n");
         printf("Modes: e = encrypt, d = decrypt; b = break\n");
-        fflush(stdout);
         return 1;
     }
 
@@ -29,7 +28,6 @@ int main(int argc, char* argv[])
     if (argv[2][0] != 'b' && argv[2][0] != 'd' && argv[2][0] != 'e')
     {
         printf("Invalid mode.\n");
-        fflush(stdout);
         return 1;
     } 
     char mode = argv[2][0];
@@ -37,10 +35,9 @@ int main(int argc, char* argv[])
     //loading file
     char* textfile_loc = argv[1];
     char* text = load_file(textfile_loc);
-    if (text == NULL)
+    if (!text)
     {
         printf("Could not locate/load file\n");
-        fflush(stdout);
         return 1;
     }
 
@@ -59,7 +56,6 @@ int main(int argc, char* argv[])
     {
         printf("Usage: ./encrypt [FILE] mode (key)\n");
         printf("Modes: e = encrypt, d = decrypt; b = break\n");
-        fflush(stdout);
         return 1;
     }    
 
@@ -68,19 +64,16 @@ int main(int argc, char* argv[])
     if (key_l > MAX_KEY)
     {
         printf("Maximum key lenght = 25\n");
-        fflush(stdout);
         return 1;
     }
     if (! is_alpha(argv[3]))
     {
         printf("Key must be alphabetical!\n");
-        fflush(stdout);
         return 1;
     }
-    if (argv[3] == NULL)
+    if (!argv[3])
     {
         printf("Please provide a key!\n");
-        fflush(stdout);
         return 1;
     }
 
@@ -105,8 +98,6 @@ int main(int argc, char* argv[])
 
     print_text(text);
     free(text);
-
-    fflush(stdout);
     return 0;
 }
 
@@ -192,15 +183,15 @@ char* load_file(char* textfile_loc)
         return NULL;
 
     fseek(textfile_l, 0, SEEK_END); // seeks EoF
-    long f_size = ftell(textfile_l); // tell position in bytes
+    long long f_size = ftell(textfile_l); // tell position in bytes
     fclose(textfile_l);
 
     FILE *textfile = fopen(textfile_loc, "r");
-    if (textfile == NULL)
+    if (!textfile)
         return NULL;
 
     char* text = malloc(f_size + 1);
-    if (text == NULL)
+    if (!text)
     {
         fclose(textfile);
         printf("Memory error");
@@ -216,8 +207,11 @@ char* load_file(char* textfile_loc)
 void print_text(char* text)
 {
     FILE *output = fopen("output.txt", "w");
-    if (output == NULL)
+    if (!output)
+    {
         printf("Memory error");
+        exit(EXIT_FAILURE);
+    }
 
     fwrite(text, strlen(text), 1, output);
     fclose(output);

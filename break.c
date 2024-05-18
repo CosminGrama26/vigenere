@@ -272,7 +272,7 @@ int manage_divsors(int** divisors)
         //loops through divisors of current array (of 3)
         for (int i = 2; i < MAX_KEY; i++)
         {
-            //array position = divisor, value = occurences
+            //array position = divisor; value = occurences
             int occurences = current_div[i];  
             long int value = pow(occurences, 1.35) * i;
 

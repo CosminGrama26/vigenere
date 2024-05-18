@@ -26,15 +26,14 @@ void frequency_analysis(char* text, int kl)
     sub_texts = split_text(text, kl);
     char key[kl+1];
 
-    const float (*pAlphabet)[26] = NULL;
+    const float *pAlphabet = NULL;
     char language[4];
 
     printf("What language do you expect the original text to be written in? (ITA / ENG): ");
-    fflush(stdout);
 
     for (;;)
     {       
-        scanf("%3s", language);   
+        scanf("%3s", language);
         char c;
         while ((c = getchar()) != '\n' && c != EOF);       //flushing input buffer;
        
@@ -43,12 +42,12 @@ void frequency_analysis(char* text, int kl)
         
         if (strcmp(language, "ITA") == 0)
         {
-            pAlphabet = &ALPHABET_ITA;
+            pAlphabet = ALPHABET_ITA;
             break;
         }
         else if (strcmp(language, "ENG") == 0)
         {
-            pAlphabet = &ALPHABET_ENG;
+            pAlphabet = ALPHABET_ENG;
             break;
         }   
         else printf("Please type ITA or ENG\n");
@@ -56,7 +55,7 @@ void frequency_analysis(char* text, int kl)
 
     for (int i = 0; i < kl; i++)
     {
-        key[i] = analyze(sub_texts[i], *pAlphabet);
+        key[i] = analyze(sub_texts[i], pAlphabet);
         free(sub_texts[i]);
     }
 
@@ -151,7 +150,7 @@ char analyze(char* text, const float target_alphabet[ALPHABET])
 
     float best_result = pow(ALPHABET, 2);    //just an arbitrary very very bad score
     int best = 0;
-    for (int i = 0; i < ALPHABET; i++)       //findind the lowest score
+    for (int i = 0; i < ALPHABET; i++)       //finding the lowest score
         if (score[i] < best_result)
         {
             best_result = score[i];
